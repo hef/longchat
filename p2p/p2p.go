@@ -25,13 +25,11 @@ type Services struct {
 	//mdns    discovery.Service
 	ps      *pubsub.PubSub
 	Handler func(*pubsub.Message)
-	peers   chan *peerstore.PeerInfo
 	say     chan string
 }
 
 func NewServices() (s *Services, err error) {
 	s = &Services{
-		peers: make(chan *peerstore.PeerInfo),
 		say:   make(chan string),
 	}
 	return
@@ -104,11 +102,6 @@ func (s *Services) initGossipSub(ctx context.Context) (err error) {
 	return
 }
 
-func (s *Services) initAutoNat(ctx context.Context) (err error) {
-	//s.autonat, err = autonat.NewAutoNATService(ctx, s.host)
-	return
-}
-
 func (s *Services) ShowSelf() {
 
 	addresses, err := s.host.Network().InterfaceListenAddresses()
@@ -141,6 +134,7 @@ func (s *Services) ShowFoo() {
 
 }
 
+// mdns callback
 func (s *Services) HandlePeerFound(peer peerstore.PeerInfo) {
 	s.host.Connect(context.Background(), peer)
 	// if err == nil {
@@ -210,11 +204,6 @@ func (s *Services) Init(ctx context.Context) (err error) {
 	}
 	//s.log("host initialized")
 
-	err = s.initAutoNat(ctx)
-	if err != nil {
-		return err
-	}
-
 	err = s.initGossipSub(ctx)
 	if err != nil {
 		return err
@@ -251,18 +240,9 @@ func (s *Services) Init(ctx context.Context) (err error) {
 func (s *Services) Run(ctx context.Context) (err error) {
 	for {
 		select {
-		case peer := <-s.peers:
-			s.handlePeer(ctx, peer)
 		case message := <-s.say:
 			s.handleSay(ctx, message)
 		}
-	}
-}
-
-func (s *Services) handlePeer(ctx context.Context, peer *peerstore.PeerInfo) {
-	err := s.host.Connect(ctx, *peer)
-	if err != nil {
-		s.log(fmt.Sprintf("error connected to peer %s, %v", peer.ID, err))
 	}
 }
 

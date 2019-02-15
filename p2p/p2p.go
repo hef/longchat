@@ -9,20 +9,19 @@ import (
 	"github.com/libp2p/go-libp2p-discovery"
 	"github.com/libp2p/go-libp2p-host"
 	"github.com/libp2p/go-libp2p-kad-dht"
-	"github.com/libp2p/go-libp2p-peerstore"
 	"github.com/libp2p/go-libp2p-pubsub"
 	"github.com/libp2p/go-libp2p-pubsub/pb"
 	"github.com/libp2p/go-libp2p-routing"
+
 	"log"
 	"time"
 )
 
-const topic = "things"
+const topic = "things3"
 
 type Services struct {
-	host host.Host
-	dht  *dht.IpfsDHT
-	//mdns    discovery.Service
+	host    host.Host
+	dht     *dht.IpfsDHT
 	ps      *pubsub.PubSub
 	Handler func(*pubsub.Message)
 	say     chan string
@@ -30,7 +29,7 @@ type Services struct {
 
 func NewServices() (s *Services, err error) {
 	s = &Services{
-		say:   make(chan string),
+		say: make(chan string),
 	}
 	return
 }
@@ -56,7 +55,7 @@ func (s *Services) initHost(ctx context.Context, prvKey crypto.PrivKey) (err err
 		libp2p.EnableRelay(),
 		libp2p.EnableAutoRelay(),
 		libp2p.NATPortMap(),
-		libp2p.Routing( s.dhtRoutingFactory ),
+		libp2p.Routing(s.dhtRoutingFactory),
 	)
 	if err != nil {
 		return err
@@ -64,9 +63,8 @@ func (s *Services) initHost(ctx context.Context, prvKey crypto.PrivKey) (err err
 	return nil
 }
 
-
 //this is kind of awkward
-func (s *Services) dhtRoutingFactory(host2 host.Host)(routing.PeerRouting, error) {
+func (s *Services) dhtRoutingFactory(host2 host.Host) (routing.PeerRouting, error) {
 	s.host = host2
 	s.initDht(context.Background())
 	return s.dht, nil
@@ -88,13 +86,6 @@ func (s *Services) initDht(ctx context.Context) (err error) {
 		s.log(fmt.Sprintf("error bootstrapping dht: %v", err))
 	}
 	return
-}
-
-func (s *Services) initMdns(ctx context.Context) (err error) {
-	//s.mdns, err = discovery.NewMdnsService(ctx, s.host, 5*time.Minute, discovery.ServiceTag)
-	//s.mdns.RegisterNotifee(s)
-	return
-
 }
 
 func (s *Services) initGossipSub(ctx context.Context) (err error) {
@@ -132,14 +123,6 @@ func (s *Services) ShowTopics() {
 
 func (s *Services) ShowFoo() {
 
-}
-
-// mdns callback
-func (s *Services) HandlePeerFound(peer peerstore.PeerInfo) {
-	s.host.Connect(context.Background(), peer)
-	// if err == nil {
-	// 	s.log(fmt.Sprintf("connected to local network peer: %s", peer.ID))
-	// }
 }
 
 func (s *Services) subscribe(ctx context.Context) (err error) {
@@ -212,15 +195,9 @@ func (s *Services) Init(ctx context.Context) (err error) {
 
 	err = s.subscribe(ctx)
 	if err != nil {
-	 	return err
+		return err
 	}
 	//s.log("subscribe started")
-
-	//err = s.initMdns(ctx)
-	//if err != nil {
-	//	return err
-	//}
-	//s.log("local network discovery started")
 
 	err = s.initDht(ctx)
 	if err != nil {

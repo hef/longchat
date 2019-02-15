@@ -3,14 +3,12 @@ package cmd
 import (
 	"bufio"
 	"context"
-	"github.com/spf13/cobra"
 	"github.com/hef/longchat/p2p"
+	golog "github.com/ipfs/go-log"
+	"github.com/spf13/cobra"
+	gologging "github.com/whyrusleeping/go-logging"
 	"log"
 	"os"
-	gologging "github.com/whyrusleeping/go-logging"
-	golog "github.com/ipfs/go-log"
-
-
 )
 
 var cliCmd = &cobra.Command{

@@ -12,12 +12,13 @@ import (
 	"github.com/libp2p/go-libp2p-pubsub"
 	"github.com/libp2p/go-libp2p-pubsub/pb"
 	"github.com/libp2p/go-libp2p-routing"
+	"io"
 
 	"log"
 	"time"
 )
 
-const topic = "things3"
+const topic = "things"
 
 type Services struct {
 	host    host.Host
@@ -25,11 +26,13 @@ type Services struct {
 	ps      *pubsub.PubSub
 	Handler func(*pubsub.Message)
 	say     chan string
+	out		io.Writer
 }
 
-func NewServices() (s *Services, err error) {
+func NewServices(writer io.Writer) (s *Services, err error) {
 	s = &Services{
 		say: make(chan string),
+		out: writer,
 	}
 	return
 }
@@ -132,7 +135,7 @@ func (s *Services) subscribe(ctx context.Context) (err error) {
 		s.log(fmt.Sprintf("error subscribing: %v", err))
 		return err
 	} else {
-		s.log("subscribed")
+		fmt.Fprint(s.out, "subscribed")
 	}
 
 	go func(ctx context.Context) {
@@ -144,7 +147,7 @@ func (s *Services) subscribe(ctx context.Context) (err error) {
 			if s.Handler != nil {
 				s.Handler(m)
 			} else {
-				log.Printf("%s: %s", m.GetFrom().String(), m.Data)
+				fmt.Fprintf(s.out, "%s: %s\n", m.GetFrom().String(), m.Data)
 			}
 
 		}
@@ -157,19 +160,19 @@ func (s *Services) dhtHook(ctx context.Context) (err error) {
 	discovery.Advertise(ctx, routingDiscovery, topic)
 	peerChan, err := routingDiscovery.FindPeers(ctx, topic)
 	if err != nil {
-		log.Printf("error discovery: %v", err)
+		fmt.Fprintf(s.out, "error during discovery: %v\n", err)
 	}
 	for peer := range peerChan {
 		if peer.ID == s.host.ID() {
 			continue
 		}
-		log.Printf("things: %v", peer.ID)
+		fmt.Fprintf(s.out, "%s joined chat\n", peer.ID)
 		err = s.host.Connect(ctx, peer)
 		if err != nil {
-			log.Printf("dht error connecting to %v", peer.ID)
+			fmt.Fprintf(s.out, "dht error connecting to %v\n", peer.ID)
 		}
 	}
-	log.Printf("done discovering peers")
+	fmt.Fprint(s.out, "done discovering peers\n")
 	return
 }
 

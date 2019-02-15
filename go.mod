@@ -3,6 +3,7 @@ module github.com/hef/longchat
 require (
 	github.com/btcsuite/btcd v0.0.0-20190213025234-306aecffea32 // indirect
 	github.com/btcsuite/goleveldb v1.0.0 // indirect
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e
 	github.com/gorilla/websocket v1.4.0 // indirect
 	github.com/huin/goupnp v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect

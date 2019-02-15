@@ -28,7 +28,7 @@ func cliCommand(cmd *cobra.Command, args []string) {
 	}
 
 	ctx := context.Background()
-	s, err := p2p.NewServices()
+	s, err := p2p.NewServices(os.Stdout)
 	if err != nil {
 		log.Printf("error creating services: %s", err)
 		return

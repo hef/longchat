@@ -22,9 +22,9 @@ func (s *Services) bootstrap(ctx context.Context) {
 		go func(ctx context.Context) {
 			err := s.host.Connect(ctx, *peerInfo)
 			if err != nil {
-				s.log(fmt.Sprintf("error connecting to bootstrap peer %s: %v", peerInfo.ID, err))
+				fmt.Fprintf(s.out, "error connecting to bootstrap peer %s: %v\n", peerInfo.ID, err)
 			} else {
-				s.log(fmt.Sprintf("connected to bootstrap peer %s", peerInfo.ID))
+				fmt.Fprintf(s.out, "connected to bootstrap peer %s\n", peerInfo.ID)
 				lock.Lock()
 				ready = true
 				cond.Broadcast()

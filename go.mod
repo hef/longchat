@@ -16,7 +16,7 @@ require (
 	github.com/libp2p/go-libp2p-autonat v0.0.0-20190207233022-494f7fce997b // indirect
 	github.com/libp2p/go-libp2p-circuit v2.3.2+incompatible // indirect
 	github.com/libp2p/go-libp2p-crypto v2.0.5+incompatible
-	github.com/libp2p/go-libp2p-discovery v0.0.0-20190212175932-d4858e0322b6
+	github.com/libp2p/go-libp2p-discovery v0.0.0-20190214183732-ececb851d171
 	github.com/libp2p/go-libp2p-host v3.0.15+incompatible
 	github.com/libp2p/go-libp2p-kad-dht v0.0.0-20190208013953-402f83e73e56
 	github.com/libp2p/go-libp2p-peerstore v2.0.6+incompatible

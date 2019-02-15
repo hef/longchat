@@ -115,6 +115,10 @@ github.com/libp2p/go-libp2p-discovery v0.0.0-20190207233013-a666b9cafd4c h1:p0/z
 github.com/libp2p/go-libp2p-discovery v0.0.0-20190207233013-a666b9cafd4c/go.mod h1:x77VonQuwToLyzZQJ6LG/Ai4o+3/u3ofz0S3K/JsTo8=
 github.com/libp2p/go-libp2p-discovery v0.0.0-20190212175932-d4858e0322b6 h1:+fhwKbKenVwgrG16fCny2su8qj9PKhPNu4DFs34zHoY=
 github.com/libp2p/go-libp2p-discovery v0.0.0-20190212175932-d4858e0322b6/go.mod h1:x77VonQuwToLyzZQJ6LG/Ai4o+3/u3ofz0S3K/JsTo8=
+github.com/libp2p/go-libp2p-discovery v0.0.0-20190214105935-17aa7d7fe372 h1:CPZsGApE0dJpJG4wIZQtpVdLgixgqIYhyQP5ksuZx50=
+github.com/libp2p/go-libp2p-discovery v0.0.0-20190214105935-17aa7d7fe372/go.mod h1:x77VonQuwToLyzZQJ6LG/Ai4o+3/u3ofz0S3K/JsTo8=
+github.com/libp2p/go-libp2p-discovery v0.0.0-20190214183732-ececb851d171 h1:tXJ6yEv55E5ZiApbosNwuTt0YzPOM9K9ZPfJMQQODC0=
+github.com/libp2p/go-libp2p-discovery v0.0.0-20190214183732-ececb851d171/go.mod h1:x77VonQuwToLyzZQJ6LG/Ai4o+3/u3ofz0S3K/JsTo8=
 github.com/libp2p/go-libp2p-host v3.0.15+incompatible h1:8hHOOHT6MqkjbFHUx5ocxTu+H/hllx5zi4txz0KWD0E=
 github.com/libp2p/go-libp2p-host v3.0.15+incompatible/go.mod h1:iAthoepYpyqzb89f4RmqzF9+ebsWPFBTvSedSlcWupg=
 github.com/libp2p/go-libp2p-interface-connmgr v0.0.21 h1:XJtqDLi860LtusR6mY2PCPGeYXmFjm7gXb+ksqwnCpI=
